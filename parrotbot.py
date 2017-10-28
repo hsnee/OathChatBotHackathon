@@ -57,6 +57,7 @@ def parrotback(inp, previous_out):
         else:
             person.year=17
         find_movie(person)
+        return "Sounds good, how about this one?"
     elif previous_out=='Yeah, I did not like it either. Would you rather watch a romcom?':
         if 'yes' in inp:
             person.romance=1
