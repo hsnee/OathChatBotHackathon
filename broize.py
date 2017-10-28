@@ -11,7 +11,7 @@ from config import FILTER_WORDS
 # Sentences we'll respond with if the user greeted us
 GREETING_KEYWORDS = ("hello", "hi", "greetings", "sup", "what's up",)
 
-GREETING_RESPONSES = ["Hi, I'm parrotbot, I'm gonna help you find a movie to watch!", "Hey there, let's find you a film to watch tonight"]
+GREETING_RESPONSES = ["Hi, I'm parrotbot, I'm gonna help you find a movie to watch! First, let me get to know you a little bit -- how old are you?", "Hey there, Parrotbot here! Let's find you a film to watch tonight. First, let me get to know you a little bit -- how old are you?"]
 
 def check_for_greeting(sentence):
     """If any of the words in the user's input was a greeting, return a greeting response"""
@@ -21,15 +21,13 @@ def check_for_greeting(sentence):
 # start:example-none.py
 # Sentences we'll respond with if we have no idea what the user just said
 NONE_RESPONSES = [
-    " ",
-    "meet me at the foosball table, bro?",
+    " "
 ]
 # end
 
 # start:example-self.py
 # If the user tries to tell us something about ourselves, use one of these responses
 COMMENTS_ABOUT_SELF = [
-    "You're just jealous",
     "I worked really hard on that",
 ]
 # end
