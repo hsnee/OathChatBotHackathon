@@ -125,10 +125,10 @@ def printtext(event):
         return
     messages = [[string, 1]] + messages
     response = parrotback(string, prev_output)
-    if (prev_output=='Final question, modern movies or old classics?'):
-        if (img_flag):
-            open_img(movie_pick.replace(" ", ""))
-        return
+    #if (prev_output=='Final question, modern movies or old classics?'):
+    #    if (img_flag):
+    #        open_img(movie_pick.replace(" ", ""))
+    #    return
     messages = [[response, 0]] + messages
     prev_output = response
     update_text(root, messages)
