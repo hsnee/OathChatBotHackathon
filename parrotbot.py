@@ -103,7 +103,6 @@ def find_movie(person):
     img_flag = 1
     movie_pick = clsf.predict(tup)[0]
     open_img(movie_pick.replace(" ", ""))
-    update_text(root, messages)
     return movie_pick
 
 #Uses the Verizon API to find the link to the trailer
