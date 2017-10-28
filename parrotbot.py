@@ -30,7 +30,7 @@ class person:
     
 def parrotback(inp, previous_out):
     if inp==None and previous_out==None:
-        return 'hi'#broize.broback('')
+        return broize.broback('')
     elif previous_out=="Hi, I'm parrotbot, I'm gonna help you find a movie to watch! First, let me get to know you a little bit -- how old are you?" or previous_out=="Hey there, Parrotbot here! Let's find you a film to watch tonight First, let me get to know you a little bit -- how old are you?":
         person.age = int(inp)
         return 'Great! Now, have you seen the new Thor movie? It was great, right?'
