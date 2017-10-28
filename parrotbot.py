@@ -1,10 +1,18 @@
+from tkinter import *
+from PIL import ImageTk, Image
+import os
+import subprocess
+import time
+import urllib
+import broize
 
 from sklearn.neural_network import MLPClassifier
 clsf = MLPClassifier(activation='logistic', solver='lbfgs',
                     hidden_layer_sizes=2
                     )
-movies = ['iron man', 'captain america', 'ant man', 'deadpool', 'guardians of the galaxy',
-         'anchorman', 'hot tub time machine', 'kung fu panda', 'home again', 'smurfs', 
+movies = ['iron man', 'captain america', 'ant man', 'deadpool', 
+        'guardians of the galaxy','anchorman', 'hot tub time machine', 
+        'kung fu panda', 'home again', 'smurfs', 
          ]
 age = [20, 19, 21, 25, 17,
        27, 18, 15, 35, 12
@@ -24,7 +32,7 @@ cartoon = [0,0,0,0,0,
 romance = [0,0,0,0,0,
           0,0,0,1,0]
 clsf.fit(zip(age,year,marvel,comedy,cartoon,romance),movies)
-import broize
+
 class person:
     pass
     
@@ -73,13 +81,7 @@ def parrotback(inp, previous_out):
         return 'how about this one?'
     else:
         return broize.broback(inp)
-from tkinter import *
-from PIL import ImageTk, Image
-import os
-import subprocess
-import time
-import urllib
-
+        
 #Start with no messages
 messages = []
 movie_pick = ""
@@ -95,14 +97,11 @@ img_flag = 0
 canvas = Canvas(root,width=w,height=h,bg="white")
 canvas.grid()
 
-#Inputs the user response and the question asked
-def get_response(string, question):
-    return "hello"
-
 #Finds a movie for the person using the neural net
 def find_movie(person):
     global img_flag, movie_pick
-    tup = [(person.age,person.year,person.marvel,person.comedy,person.cartoon,person.romance)]
+    tup = [(person.age,person.year,person.marvel,person.comedy,person.cartoon,
+        person.romance)]
     img_flag = 1
     movie_pick = clsf.predict(tup)[0]
     open_img(movie_pick.replace(" ", ""))
@@ -111,8 +110,8 @@ def find_movie(person):
 #Uses the Verizon API to find the link to the trailer
 def get_url(person):
     movie_name = movie_pick # output from neural net
-    url = urllib.urlopen('http://api.vidible.tv/53c2870aee1353918d33d955d7b3f19e/video/search?query='
-                         +movie_name+' trailer')
+    url = urllib.urlopen('http://api.vidible.tv/53c2870aee1353918d33d955d7\
+        b3f19e/video/search?query='+movie_name+' trailer')
     string1 = url.read()
     match_string = re.match( r'.*?"videoUrl":"(.*?)".*', string1)
     link = match_string.group(1)
@@ -186,19 +185,6 @@ def open_img(x):
     b = Button(root, image=img, command=on_click)
     b.pack()
     b.place(x=w * 0.5, y=h * 0.5, anchor="c")
-
-#This doesn't work
-def open_gif():
-    frames = [PhotoImage(file='partyparrot.gif',format = 'gif -index %i' %(i)) for i in range(10)]
-
-    def update(ind):
-        frame = frames[ind]
-        ind += 1
-        label.configure(image=frame)
-        root.after(100, update, ind)
-    label = Label(root)
-    label.pack()
-    root.after(0, update, 0)
 
 #Make text box for user input
 e = Entry(root)
