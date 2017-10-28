@@ -5,11 +5,14 @@ import subprocess
 import time
 import urllib
 import broize
-
 from sklearn.neural_network import MLPClassifier
+
+#Constructing a neural net
 clsf = MLPClassifier(activation='logistic', solver='lbfgs',
                     hidden_layer_sizes=2
                     )
+
+#Testing data
 movies = ['iron man', 'captain america', 'ant man', 'deadpool', 
         'guardians of the galaxy','anchorman', 'hot tub time machine', 
         'kung fu panda', 'home again', 'smurfs', 
@@ -33,9 +36,14 @@ romance = [0,0,0,0,0,
           0,0,0,1,0]
 clsf.fit(zip(age,year,marvel,comedy,cartoon,romance),movies)
 
+#Person class to hold data we've collected about their responses
 class person:
     pass
     
+#Finds a response to the user's input
+#Inputs:    inp - string of the user input
+            previous_out - string of the last output of parrotbot
+#Output:    response for parrotbot
 def parrotback(inp, previous_out):
     if inp==None and previous_out==None:
         return broize.broback('')
@@ -87,7 +95,7 @@ messages = []
 movie_pick = ""
 prev_output = None
 
-#Initializing the root and canvas
+#Initializing the root and canvas for the user interface
 root = Tk()
 root.title('Parrotbot')
 w = 1300
@@ -98,6 +106,10 @@ canvas = Canvas(root,width=w,height=h,bg="white")
 canvas.grid()
 
 #Finds a movie for the person using the neural net
+#Inputs:    person - data about the person to feed into the neural net
+#Output:    the movie pick for the person
+#Effects:   sets the global movie pick
+#           displays an image of the poster for the movie
 def find_movie(person):
     global img_flag, movie_pick
     tup = [(person.age,person.year,person.marvel,person.comedy,person.cartoon,
@@ -108,6 +120,8 @@ def find_movie(person):
     return movie_pick
 
 #Uses the Verizon API to find the link to the trailer
+#Inputs:    person - data about the person
+#Outputs:   link to the movie trailer
 def get_url(person):
     movie_name = movie_pick # output from neural net
     url = urllib.urlopen('http://api.vidible.tv/53c2870aee1353918d33d955d7\
@@ -118,6 +132,9 @@ def get_url(person):
     return link
 
 #Prints the text based on a user's input
+#Inputs:    event - for the UI
+#Effects:   draws the text for the messages and the image of the movie if
+#           applicable
 def printtext(event):
     global img_flag, e, messages, root, prev_output
     string = e.get()
@@ -126,10 +143,6 @@ def printtext(event):
         return
     messages = [[string, 1]] + messages
     response = parrotback(string, prev_output)
-    #if (prev_output=='Final question, modern movies or old classics?'):
-    #    if (img_flag):
-    #        open_img(movie_pick.replace(" ", ""))
-    #    return
     messages = [[response, 0]] + messages
     prev_output = response
     update_text(root, messages)
@@ -137,6 +150,9 @@ def printtext(event):
         open_img(movie_pick.replace(" ", ""))
 
 #Updates the GUI text boxes
+#Inputs:    root - for the UI
+#           texts - list of message history
+#Effects:   draws the messages on the canvas
 def update_text(root, texts):
     for i in range(min(16, len(texts))):
         t = Text(root)
@@ -165,11 +181,15 @@ def update_text(root, texts):
         canvas.tag_lower(t)
 
 #Bring up trailer link when the image is clicked on
+#Trigger:   clicking on the poster image
+#Effects:   opens the url for the movie-pick
 def on_click(event=None):
     global movie_pick
     subprocess.Popen(['open', get_url(movie_pick)])
 
 #Opens the image button for the movie poster
+#Inputs:    x - string of the name of the image file
+#Effects:   draws the image on the canvas of the input file
 def open_img(x):
     if (x == ""):
         return
