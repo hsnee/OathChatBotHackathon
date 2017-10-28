@@ -68,6 +68,9 @@ def parrotback(inp, previous_out):
             person.comedy=0
             person.cartoon=1
         return 'Final question, modern movies or old classics?'
+    elif previous_out=="Sounds good, how about this one?" and "don't" in inp:
+        find_movie(person)
+        return 'how about this one?'
     else:
         return broize.broback(inp)
 from tkinter import *
