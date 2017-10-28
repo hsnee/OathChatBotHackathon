@@ -1,6 +1,5 @@
 from __future__ import print_function, unicode_literals
 import random
-import logging
 import os
 
 os.environ['NLTK_DATA'] = os.getcwd() + '/nltk_data'
@@ -8,15 +7,11 @@ os.environ['NLTK_DATA'] = os.getcwd() + '/nltk_data'
 from textblob import TextBlob
 from config import FILTER_WORDS
 
-logging.basicConfig()
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
-
 # start:example-hello.py
 # Sentences we'll respond with if the user greeted us
 GREETING_KEYWORDS = ("hello", "hi", "greetings", "sup", "what's up",)
 
-GREETING_RESPONSES = ["'sup bro", "hey", "*nods*", "hey you get my snap?"]
+GREETING_RESPONSES = ["Hi, I'm parrotbot, I'm gonna help you find a movie to watch!", "Hey there, let's find you a film to watch tonight"]
 
 def check_for_greeting(sentence):
     """If any of the words in the user's input was a greeting, return a greeting response"""
@@ -26,12 +21,8 @@ def check_for_greeting(sentence):
 # start:example-none.py
 # Sentences we'll respond with if we have no idea what the user just said
 NONE_RESPONSES = [
-    "uh whatever",
+    " ",
     "meet me at the foosball table, bro?",
-    "code hard bro",
-    "want to bro down and crush code?",
-    "I'd like to add you to my professional network on LinkedIn",
-    "Have you closed your seed round, dog?",
 ]
 # end
 
@@ -40,7 +31,6 @@ NONE_RESPONSES = [
 COMMENTS_ABOUT_SELF = [
     "You're just jealous",
     "I worked really hard on that",
-    "My Klout score is {}".format(random.randint(100, 500)),
 ]
 # end
 
@@ -57,7 +47,6 @@ def starts_with_vowel(word):
 
 def broback(sentence):
     """Main program loop: select a response for the input sentence and return it"""
-    logger.info("Broback: respond to %s", sentence)
     resp = respond(sentence)
     return resp
 
@@ -100,8 +89,7 @@ def find_noun(sent):
                 noun = w
                 break
     if noun:
-        logger.info("Found noun: %s", noun)
-
+        pass
     return noun
 
 def find_adjective(sent):
@@ -162,15 +150,12 @@ def check_for_comment_about_bot(pronoun, noun, adjective):
 
 # Template for responses that include a direct noun which is indefinite/uncountable
 SELF_VERBS_WITH_NOUN_CAPS_PLURAL = [
-    "My last startup totally crushed the {noun} vertical",
     "Were you aware I was a serial entrepreneur in the {noun} sector?",
     "My startup is Uber for {noun}",
-    "I really consider myself an expert on {noun}",
 ]
 
 SELF_VERBS_WITH_NOUN_LOWER = [
     "Yeah but I know a lot about {noun}",
-    "My bros always ask me about {noun}",
 ]
 
 SELF_VERBS_WITH_ADJECTIVE = [
@@ -225,9 +210,8 @@ def respond(sentence):
     if not resp:
         resp = random.choice(NONE_RESPONSES)
 
-    logger.info("Returning phrase '%s'", resp)
     # Check that we're not going to say anything obviously offensive
-    filter_response(resp)
+    #filter_response(resp)
 
     return resp
 
@@ -243,22 +227,30 @@ def find_candidate_parts_of_speech(parsed):
         noun = find_noun(sent)
         adjective = find_adjective(sent)
         verb = find_verb(sent)
-    logger.info("Pronoun=%s, noun=%s, adjective=%s, verb=%s", pronoun, noun, adjective, verb)
+#        movies = find_movies(sent)
     return pronoun, noun, adjective, verb
 
 
+# def find_movies():
+#     """Given a sentence, find the best candidate adjective."""
+#     movie = None
+#     for w in sent.split(' '):
+#         if p == 'movies':  # This is an adjective
+#             adj = w
+#             break
+#     return adj
 # end
 
 # start:example-filter.py
-def filter_response(resp):
-    """Don't allow any words to match our filter list"""
-    tokenized = resp.split(' ')
-    for word in tokenized:
-        if '@' in word or '#' in word or '!' in word:
-            raise UnacceptableUtteranceException()
-        for s in FILTER_WORDS:
-            if word.lower().startswith(s):
-                raise UnacceptableUtteranceException()
+# def filter_response(resp):
+#     """Don't allow any words to match our filter list"""
+#     tokenized = resp.split(' ')
+#     for word in tokenized:
+#         if '@' in word or '#' in word or '!' in word:
+#             raise UnacceptableUtteranceException()
+#         for s in FILTER_WORDS:
+#             if word.lower().startswith(s):
+#                 raise UnacceptableUtteranceException()
 # end
 
 if __name__ == '__main__':
