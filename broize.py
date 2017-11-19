@@ -1,3 +1,5 @@
+# This file is a modified version of "brobot" by Liza Daly (www.github.com/lizadaly/brobot), and provides a "fallback" that our chatbot will fall back on if it doesn't know what else to do.
+
 from __future__ import print_function, unicode_literals
 import random
 import os
