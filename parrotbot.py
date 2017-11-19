@@ -42,7 +42,7 @@ class person:
     
 #Finds a response to the user's input
 #Inputs:    inp - string of the user input
-            previous_out - string of the last output of parrotbot
+#           previous_out - string of the last output of parrotbot
 #Output:    response for parrotbot
 def parrotback(inp, previous_out):
     if inp==None and previous_out==None:
